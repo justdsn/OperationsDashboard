@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Peliyagoda Operations Dashboard"
+description = "A responsive concrete plant operations dashboard for Access Engineering PLC. Create daily plans, record actual operations, calculate time and volume variances, and analyze delays using browser-local prototype data."
+version = "1.0.0"
+id = "artifacts/peliyagoda-dashboard"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18439
+
+[services.development]
+run = "pnpm --filter @workspace/peliyagoda-dashboard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/peliyagoda-dashboard", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/peliyagoda-dashboard/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18439"
+BASE_PATH = "/"
